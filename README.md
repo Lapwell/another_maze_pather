@@ -19,13 +19,13 @@ The zillionth maze pather made with the A* algorithm, C, and Raylib
 
 * Default is ```./maze_pather``` to execute program.
 
-<br/><br/><br/>
+<br/><br/>
 
 ## Help
 
 * Basic tips and tricks. None currently.
 
-<br/><br/><br/>
+<br/><br/>
 
 ## Authors & Contributors
 

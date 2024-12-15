@@ -1,1 +1,0 @@
-/usr/bin/cc  -Wall -O2 -pedantic -Wextra -Wshadow -g -lraylib -lm -lpthread -ldl -lrt -Wl,--dependency-file,CMakeFiles/maze-pather.dir/link.d "CMakeFiles/maze-pather.dir/src/main.c.o" -o maze-pather  /usr/lib/libglfw.so -lraylib /usr/lib/libglfw.so.3.4 -lm -lpthread -ldl -lrt

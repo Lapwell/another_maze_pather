@@ -1,8 +1,0 @@
-[
-{
-  "directory": "/home/lapwell/Projects/C/maze_pather",
-  "command": "/usr/bin/cc  -I/home/lapwell/Projects/C/maze_pather/include  -Wall -O2 -pedantic -Wextra -Wshadow -g -lraylib -lm -lpthread -ldl -lrt -std=c2x -o CMakeFiles/maze-pather.dir/src/main.c.o -c /home/lapwell/Projects/C/maze_pather/src/main.c",
-  "file": "/home/lapwell/Projects/C/maze_pather/src/main.c",
-  "output": "CMakeFiles/maze-pather.dir/src/main.c.o"
-}
-]

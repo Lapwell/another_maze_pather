@@ -10,10 +10,9 @@ set(CMAKE_C_STANDARD 23) # Specify the C standard (C23 as you mentioned earlier)
 
 set(CMAKE_C_EXTENSIONS OFF) # Remove some annoying extensions
 
-
-
 # Add the executable (main source file)
-add_executable(maze-pather src/main.c)
+add_executable(maze-pather src/main.c src/grid_manipulator.c
+src/mouse_input.c src/set_tile.c src/edit_tile_array.c)
 
 # Inlcude the headers
 target_include_directories(maze-pather PUBLIC ${CMAKE_SOURCE_DIR}/include) 
