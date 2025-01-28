@@ -1,16 +1,23 @@
 #include "global_defines.h"
 #include "grid_manipulator.h"
+#include "pathfind.h"
+#include "calc_g.h"
+#include "calc_h.h"
 #include <raylib.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+
+#define TILE_FLOOR (Tile) {.rect = {(TILE_SIZE * c) + TILE_PAD, (TILE_SIZE * r) + TILE_PAD, TILE_SIZE, TILE_SIZE}, .type = FLOOR, .colour = WHITE}
 
 /* Params
  * Rectangle open[]: the grid to display and traverse.
  * Desc: Initializes open_list, entities, any such
  */
 void initialize(int *window_width, int *window_height, Tile grid[TILE_COUNT][TILE_COUNT],
-                Tile *start_end[2], TileArray open) {
+                Tile *start_end[2], TileArray *open) {
+
+  // Move onto creating the grid, start tile, and end tile
   int start_rand_r, start_rand_c, end_rand_r, end_rand_c; // Used to setting random tiles to start/end
   srand(time(NULL)); // Only called once. Sets the seed for rand() using the time
   start_rand_r = rand() % TILE_COUNT;
@@ -18,10 +25,7 @@ void initialize(int *window_width, int *window_height, Tile grid[TILE_COUNT][TIL
   // Init the open grid array
   for (int r = 0; r < TILE_COUNT; r++) {
     for (int c = 0; c < TILE_COUNT; c++) {
-      // Reason for the adding TILE_PAD is to shift everything over a little
-      // For the left side pad colour to be visible. If not, tiles are flush
-      grid[r][c] = (Tile) {.rect = {(TILE_SIZE * c) + TILE_PAD, (TILE_SIZE * r) + TILE_PAD,
-                           TILE_SIZE, TILE_SIZE}, .type = FLOOR, .colour = WHITE, .g=0};
+      grid[r][c] = TILE_FLOOR;
     }
   }
   // Set a random tile to be the start.
@@ -41,7 +45,11 @@ void initialize(int *window_width, int *window_height, Tile grid[TILE_COUNT][TIL
   start_end[END_INDEX] = &grid[end_rand_r][end_rand_c];
 
   // Start the open list at the start tile
-  open.array[0] = *start_end[START_INDEX];
+  open->array[0] = *start_end[START_INDEX];
+
+  // Calc the G and H values of the grid.
+  calc_g(start_end[START_INDEX]->rect, grid);
+  calc_h(start_end[END_INDEX]->rect, grid);
 
   // Reason for the extra parenthesis: add a little extra space for the right side
   // outline colour. If not, the tiles are flush with the window.
@@ -63,18 +71,35 @@ void drawGrid(Tile grid[TILE_COUNT][TILE_COUNT]) {
       DrawRectangleRec((Rectangle) {grid_pos.x, grid_pos.y,
                                     grid_tile.rect.width, grid_tile.rect.height},
                                     grid_tile.colour);
+      DrawText(TextFormat("%i", grid_tile.g), TILE_PAD + grid_pos.x, grid_pos.y, 24, RED); // Distance from START
+//      DrawText(TextFormat("%i", grid_tile.h), grid_pos.x + (int)(TILE_SIZE / 1.75), grid_pos.y, 24, BLUE); // H is the distance from END
+//      DrawText(TextFormat("%i", grid_tile.f), grid_pos.x + (int)(TILE_SIZE / 3), grid_pos.y + (int)(TILE_SIZE / 2), 24, PURPLE); // F = G + H
     }
   }
 }
 
 int main() {
   Tile grid_list[TILE_COUNT][TILE_COUNT];
-  TileArray open_list = {.array = (Tile*)malloc(sizeof(Tile)) , .length = 1};
-  TileArray closed_list = {.array = (Tile*)malloc(sizeof(Tile)), .length = 1};
+
+  // Init the open_list and closed_lists, check if they init.
+  Tile *open_init_array = (Tile*)malloc(sizeof(Tile));
+  Tile *closed_init_array = (Tile*)malloc(sizeof(Tile));
+  if (!open_init_array) {
+    printf("Failure initializing 'open_init_array'...");
+    exit(1);
+  }
+
+  if (!closed_init_array) {
+    printf("Failure initializing 'closed_init_array");
+    exit(1);
+  }
+
+  TileArray open_list = {.array = open_init_array, .length = 1};
+  TileArray closed_list = {.array = closed_init_array, .length = 1};
   Tile *start_end[2];
   int window_width, window_height;
   // This sets some initial data for open_list, creates entities, and loads necassary data
-  initialize(&window_width, &window_height, grid_list, start_end, open_list);
+  initialize(&window_width, &window_height, grid_list, start_end, &open_list);
   SetConfigFlags(FLAG_WINDOW_RESIZABLE);
   InitWindow(window_width, window_height, "Maze Pather");
   SetTargetFPS(60);

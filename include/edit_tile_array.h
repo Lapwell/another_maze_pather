@@ -9,7 +9,7 @@
  *  int new_length: Grows/shrinks by set amount.
  *Desc: Returns a new array of desginated size.
  */
-Tile *edit_tile_array(Tile *old_array, int length, int new_length);
+Tile *edit_tile_array(Tile old_array[], int length, int new_length);
 
 #endif // !EDIT_ARRAY_
 #define EDIT_ARRAY_

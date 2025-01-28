@@ -1,15 +1,20 @@
 #include "find_neighbours.h"
 #include "global_defines.h"
-#include <stdlib.h>
+#include <raylib.h>
 
-Tile* find_neighbours(Tile *tile, Tile grid[TILE_COUNT][TILE_COUNT]) {
-  Vector2 grid_pos = {tile->rect.x / (TILE_SIZE + TILE_PAD),
-                      tile->rect.y / (TILE_SIZE + TILE_PAD)};
-  Tile *neighbours = (Tile*)malloc(sizeof(Tile) * 4);
-  neighbours[0] = grid[(int)grid_pos.x - 1][(int)grid_pos.y];
-  neighbours[1] = grid[(int)grid_pos.x + 1][(int)grid_pos.y];
-  neighbours[2] = grid[(int)grid_pos.x][(int)grid_pos.y + 1];
-  neighbours[3] = grid[(int)grid_pos.x][(int)grid_pos.y - 1];
-  return neighbours;
+void find_neighbours(Tile *tile, Tile grid[TILE_COUNT][TILE_COUNT], Tile *neighbours[MAX_NEIGHBOURS]) {
+  // Get ROW and COL of the target tile
+  int target_col = (int)(tile->rect.x / TILE_SIZE);
+  int target_row = (int)(tile->rect.y / TILE_SIZE);
+
+  // Get the address of the neighbouring tiles to the target
+  neighbours[0] = &grid[target_row - 1][target_col]; // North
+  grid[target_row - 1][target_col].colour = BROWN;
+  neighbours[1] = &grid[target_row + 1][target_col]; // South
+  grid[target_row + 1][target_col].colour = PURPLE;
+  neighbours[2] = &grid[target_row][target_col + 1]; // East
+  grid[target_row][target_col + 1].colour = PINK;
+  neighbours[3] = &grid[target_row][target_col - 1]; // West
+  grid[target_row][target_col - 1].colour = YELLOW;
 }
 

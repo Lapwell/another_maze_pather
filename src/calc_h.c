@@ -3,9 +3,15 @@
 #include "raylib.h"
 #include "stdlib.h"
 
-int calc_h(Rectangle tile, Rectangle end) {
-  int a = abs((int)(tile.x / (TILE_SIZE + TILE_PAD) - end.x / (TILE_SIZE + TILE_PAD))) * 2;
-  int b = abs((int)(tile.y / (TILE_SIZE + TILE_PAD) - end.y / (TILE_SIZE + TILE_PAD))) * 2;
-  return a + b;
+void calc_h(Rectangle end, Tile grid[TILE_COUNT][TILE_COUNT]) {
+  for (int row = 0; row < TILE_COUNT; row++) {
+    for (int col = 0; col < TILE_COUNT; col++) {
+      Tile *tile = &grid[row][col];
+      //if (tile->rect.x == end.x && tile->rect.y == end.y) tile->h = 0;
+      int a = abs((int)(tile->rect.x / (TILE_SIZE + TILE_PAD)) - (int)(end.x / (TILE_SIZE + TILE_PAD)));
+      int b = abs((int)(tile->rect.y / (TILE_SIZE + TILE_PAD)) - (int)(end.y / (TILE_SIZE + TILE_PAD)));
+      tile->h = a + b;
+    }
+  }
 }
 

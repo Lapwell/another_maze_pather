@@ -9,7 +9,7 @@
  *Desc: Finds the neighbours in the cardinal directions of the given tile
  *      and returns a ptr array storing the tiles.
  */
-Tile* find_neighbours(Tile *tile, Tile grid[TILE_COUNT][TILE_COUNT]);
+void find_neighbours(Tile *tile, Tile grid[TILE_COUNT][TILE_COUNT], Tile *neighbours[MAX_NEIGHBOURS]);
 
 #endif // !FIND_NEIGHBOURS_
 

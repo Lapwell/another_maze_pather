@@ -3,11 +3,11 @@
 
 #include "raylib.h"
 
-#define TILE_COUNT 32
-#define TILE_SIZE 32
+#define TILE_COUNT 16
+#define TILE_SIZE 52
 #define TILE_COLOUR WHITE
 #define TILE_PAD 4
-#define MAX_NEIGHBOURS 4;
+#define MAX_NEIGHBOURS 4
 
 #define START 's'
 #define END 'e'
